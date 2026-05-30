@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import { initDatabase } from './database';
 import { registerCommands } from './commands';
 import { registerListeners } from './listeners';
+import { registerDashboard } from './dashboard';
 
 dotenv.config();
 
@@ -15,21 +16,20 @@ const app = new App({
 
 async function start() {
   try {
-    // Initialize database
     await initDatabase();
     console.log('✅ Database initialized');
 
-    // Register Slack commands
     registerCommands(app);
     console.log('✅ Commands registered');
 
-    // Register event listeners
     registerListeners(app);
     console.log('✅ Listeners registered');
 
-    // Start the app
+    await registerDashboard(app);
+    console.log('✅ Dashboard registered');
+
     await app.start(process.env.PORT || 3000);
-    console.log('✅ FollowFlo app started');
+    console.log('✅ FollowFlo MVP started (Lightning mode)');
   } catch (error) {
     console.error('❌ Error starting app:', error);
     process.exit(1);
