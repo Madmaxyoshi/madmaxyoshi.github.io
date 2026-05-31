@@ -179,5 +179,45 @@ describe('checkAndExecuteEscalations', () => {
 
       await expect(checkAndExecuteEscalations(mockApp)).resolves.not.toThrow();
     });
+
+    it('Stage 2 内部Slackエラーをキャッチして継続する', async () => {
+      jest.spyOn(console, 'error').mockImplementation(() => {});
+      mockQuery
+        .mockResolvedValueOnce({ rows: [] } as any)
+        .mockResolvedValueOnce({
+          rows: [{
+            id: 'task-s2', task_name: 'Stage2タスク', assigned_to: 'U1',
+            created_by: 'U2', deadline: new Date().toISOString(), slack_channel_id: 'C1',
+          }],
+        } as any)
+        .mockResolvedValueOnce({ rows: [] } as any);
+      mockPostMessage.mockRejectedValue(new Error('Slack error'));
+
+      await expect(checkAndExecuteEscalations(mockApp)).resolves.not.toThrow();
+      expect(console.error).toHaveBeenCalledWith(
+        expect.stringContaining('Stage 2 escalation error'),
+        expect.any(Error)
+      );
+    });
+
+    it('Stage 3 内部Slackエラーをキャッチして継続する', async () => {
+      jest.spyOn(console, 'error').mockImplementation(() => {});
+      mockQuery
+        .mockResolvedValueOnce({ rows: [] } as any)
+        .mockResolvedValueOnce({ rows: [] } as any)
+        .mockResolvedValueOnce({
+          rows: [{
+            id: 'task-s3', task_name: 'Stage3タスク', assigned_to: 'U1',
+            created_by: 'U2', deadline: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString(),
+          }],
+        } as any);
+      mockPostMessage.mockRejectedValue(new Error('Slack error'));
+
+      await expect(checkAndExecuteEscalations(mockApp)).resolves.not.toThrow();
+      expect(console.error).toHaveBeenCalledWith(
+        'Stage 3 escalation error:',
+        expect.any(Error)
+      );
+    });
   });
 });

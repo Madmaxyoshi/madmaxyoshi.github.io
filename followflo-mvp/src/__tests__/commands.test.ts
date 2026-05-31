@@ -95,6 +95,14 @@ describe('/followflo create', () => {
     );
   });
 
+  it('無効な日付形式の場合はエラーを返す', async () => {
+    await invokeCommand('create "タスク名" @user1 deadline:2026-13-01');
+    expect(mockPostEphemeral).toHaveBeenCalledWith(
+      expect.objectContaining({ text: expect.stringContaining('無効な期限形式') })
+    );
+    expect(mockQuery).not.toHaveBeenCalled();
+  });
+
   it('過去の日付の場合は警告を返す', async () => {
     await invokeCommand('create "タスク名" @user1 deadline:2020-01-01');
     expect(mockPostEphemeral).toHaveBeenCalledWith(

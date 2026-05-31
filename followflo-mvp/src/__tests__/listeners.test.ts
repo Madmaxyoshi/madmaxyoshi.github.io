@@ -220,4 +220,27 @@ describe('file_shared listener', () => {
     mockFilesInfo.mockRejectedValue(new Error('Slack API error'));
     await expect(shareFile({})).resolves.not.toThrow();
   });
+
+  it('fetch失敗時もエラーをログして処理を継続する', async () => {
+    mockQuery
+      .mockResolvedValueOnce({ rows: [pendingItem] } as any)
+      .mockResolvedValueOnce({ rows: [{ id: 'ef-3' }] } as any)
+      .mockResolvedValueOnce({ rows: [] } as any);
+    mockEvaluateEvidenceFile.mockResolvedValue({ score: 0.5, feedback: 'OK', isApproved: false, issues: [] });
+
+    global.fetch = jest.fn().mockRejectedValue(new Error('Network error')) as any;
+    jest.spyOn(console, 'error').mockImplementation(() => {});
+
+    await expect(shareFile({
+      url_private: 'https://slack/file.txt',
+      name: 'report.txt',
+      filetype: 'text',
+      mimetype: 'text/plain',
+    })).resolves.not.toThrow();
+
+    expect(console.error).toHaveBeenCalledWith(
+      'Failed to fetch file content:',
+      expect.any(Error)
+    );
+  });
 });

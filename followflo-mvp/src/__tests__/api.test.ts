@@ -181,4 +181,78 @@ describe('GET /api/tasks/overdue', () => {
     expect(res.status).toBe(200);
     expect(res.body).toHaveLength(0);
   });
+
+  it('DBエラー時に500を返す', async () => {
+    mockGetOverdueItems.mockRejectedValue(new Error('DB error'));
+    const res = await request(app).get('/api/tasks/overdue');
+    expect(res.status).toBe(500);
+    expect(res.body.error).toBe('Failed to fetch overdue items');
+  });
+});
+
+describe('GET /api/action-items - userId フィルタ', () => {
+  it('userId でフィルタできる', async () => {
+    mockQuery.mockResolvedValue({ rows: [{ id: 1, assigned_to: 'user1' }] } as any);
+    const res = await request(app).get('/api/action-items?userId=user1');
+    expect(res.status).toBe(200);
+    expect(mockQuery).toHaveBeenCalledWith(
+      expect.stringContaining('assigned_to = $'),
+      ['user1']
+    );
+  });
+});
+
+describe('GET /api/evidence-files - actionItemId フィルタ', () => {
+  it('actionItemId でフィルタできる', async () => {
+    mockQuery.mockResolvedValue({ rows: [{ id: 1, action_item_id: 1 }] } as any);
+    const res = await request(app).get('/api/evidence-files?actionItemId=1');
+    expect(res.status).toBe(200);
+    expect(mockQuery).toHaveBeenCalledWith(
+      expect.stringContaining('action_item_id = $'),
+      ['1']
+    );
+  });
+
+  it('DBエラー時に500を返す', async () => {
+    mockQuery.mockRejectedValue(new Error('DB error'));
+    const res = await request(app).get('/api/evidence-files');
+    expect(res.status).toBe(500);
+    expect(res.body.error).toBe('Failed to fetch evidence files');
+  });
+});
+
+describe('GET /api/completion-proofs/:actionItemId - エラー', () => {
+  it('DBエラー時に500を返す', async () => {
+    mockQuery.mockRejectedValue(new Error('DB error'));
+    const res = await request(app).get('/api/completion-proofs/1');
+    expect(res.status).toBe(500);
+    expect(res.body.error).toBe('Failed to fetch completion proofs');
+  });
+});
+
+describe('GET /api/user/:userId/metrics - エラー', () => {
+  it('DBエラー時に500を返す', async () => {
+    mockGetCompletionMetrics.mockRejectedValue(new Error('DB error'));
+    const res = await request(app).get('/api/user/user1/metrics');
+    expect(res.status).toBe(500);
+    expect(res.body.error).toBe('Failed to fetch metrics');
+  });
+});
+
+describe('GET /api/team/metrics - エラー', () => {
+  it('DBエラー時に500を返す', async () => {
+    mockGetTeamMetrics.mockRejectedValue(new Error('DB error'));
+    const res = await request(app).get('/api/team/metrics');
+    expect(res.status).toBe(500);
+    expect(res.body.error).toBe('Failed to fetch team metrics');
+  });
+});
+
+describe('GET /api/dashboard/summary - エラー', () => {
+  it('DBエラー時に500を返す', async () => {
+    mockGetTeamMetrics.mockRejectedValue(new Error('DB error'));
+    const res = await request(app).get('/api/dashboard/summary');
+    expect(res.status).toBe(500);
+    expect(res.body.error).toBe('Failed to fetch dashboard summary');
+  });
 });
