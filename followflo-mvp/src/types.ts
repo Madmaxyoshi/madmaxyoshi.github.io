@@ -35,3 +35,32 @@ export interface VerificationResult {
   reason: string;
   hash: string;
 }
+
+export interface EvidenceFile {
+  id: string;
+  action_item_id: string;
+  file_url: string;
+  file_name: string;
+  file_type: string;
+  uploaded_by: string;
+  uploaded_at: string;
+  file_content?: string;
+  quality_score: number;
+  quality_feedback: string;
+  ai_review_status: 'pending' | 'approved' | 'rejected' | 'needs_review';
+}
+
+export interface QualityEvaluation {
+  score: number; // 0.0-1.0
+  feedback: string;
+  issues: string[];
+  isApproved: boolean;
+}
+
+export interface FinalVerificationResult extends VerificationResult {
+  message_confidence: number;
+  evidence_files: EvidenceFile[];
+  quality_evaluation: QualityEvaluation;
+  final_confidence: number;
+  final_stage: number; // 0=unverified, 1=auto-detected, 2=context-verified, 3=file-verified, 4=quality-approved
+}
