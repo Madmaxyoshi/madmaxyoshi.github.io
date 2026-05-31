@@ -98,6 +98,85 @@ print(idea.coo_comment)
 
 ## セッション履歴
 
+### 2026-05-31（第4セッション）
+- **FLOWFLLOW MVP - 3つのUI実装完了**
+- ユーザー要望「全部見たい」に応じて、3つのUI選択肢をすべて実装
+
+**【実装完了】3つのUI選択肢：**
+
+1. **Slack-only Interface** ✅
+   - Slack Bolt フレームワーク（Socket Mode）
+   - `/todo` コマンド、リアクション処理、ダッシュボード表示
+   - 会話内での直接的なタスク管理
+
+2. **Web Dashboard** ✅（新規実装）
+   - Express.js REST API サーバー
+   - 7つのAPI endpoints: `/api/action-items`, `/api/evidence-files`, `/api/completion-proofs`, `/api/dashboard/summary`, `/api/user/:userId/metrics`, `/api/team/metrics`, `/api/tasks/overdue`
+   - 単一ページアプリケーション（SPA）：ダッシュボード、証拠ファイル、タスク、完了証拠の4つの表示
+   - 紫色グラデーション（#667eea → #764ba2）のモダンUI
+   - レスポンシブデザイン、カード型レイアウト
+   - リアルタイムデータ表示、チーム統計表
+   - http://localhost:3000 でアクセス可能
+   - Mock DB対応（PostgreSQL不要で開発・テスト可能）
+
+3. **Browser Extension** ✅（新規実装）
+   - Chrome/Firefox 対応
+   - **Notion統合**: データベース行に自動的にステータスバッジを注入（✅完了、⏳保留中、🚨期限超過）
+   - **Asana統合**: タスクリストに直接インラインでステータスアイコンを表示
+   - **Popup Dashboard**: 最近のタスク、チーム統計、完了率を瞬時に確認
+   - **Background Worker**: 期限超過タスク自動検出、通知機能
+   - **カスタマイズ可能**: API URL設定でどのFLOWFLOWインスタンスにも接続可能
+   - マニフェスト v3 準拠
+
+**【技術的改善】：**
+- Express.js + Slack Bolt の統合（Socket Mode互換性維持）
+- TypeScript型安全性修正（Express query パラメータ）
+- CORS対応（フロントエンド・extension からのAPI呼び出し対応）
+- Mock database/metrics モジュール（PG不要で開発）
+- 静的ファイルサービング
+
+**【ディレクトリ構成の拡張】：**
+```
+followflo-mvp/
+├── src/
+│   ├── api.ts                  # REST API ルータ（新規）
+│   ├── database.mock.ts        # Mock DB（新規）
+│   ├── metrics.mock.ts         # Mock メトリクス（新規）
+│   ├── index.ts                # Slack + Express統合
+│   └── ...
+├── frontend/                   # Web Dashboard（新規）
+│   ├── index.html
+│   └── next.config.js
+└── extension/                  # Browser Extension（新規）
+    ├── manifest.json
+    ├── popup.html / popup.js
+    ├── content-script.js
+    ├── background.js
+    ├── styles.css
+    └── README.md
+```
+
+**【ユーザー体験フロー】：**
+1. **Slack**: 会議中にアクションアイテムを即座に追跡
+2. **Web**: 集約ダッシュボードで全体進捗を可視化
+3. **Browser Extension**: Notion/Asanaで作業中もステータスを確認できる「シームレスな体験」
+
+**【今後のロードマップ】：**
+- [ ] Google Calendar, Microsoft Teams 統合
+- [ ] 自動エスカレーション（期限切れ通知）
+- [ ] 證拠ファイルの自動クローズド・キャプション解析
+- [ ] AI confidence scoring の改善
+- [ ] 多言語対応（日本語 → 英語）
+- [ ] 本番環境 PostgreSQL 統合テスト
+
+**【ローカルテスト方法】：**
+```bash
+cd followflo-mvp
+npm run build      # TypeScript コンパイル
+npm run dev        # Web Dashboard + Slack Bot 起動（http://localhost:3000）
+# extension/ フォルダを chrome://extensions に load
+```
+
 ### 2026-05-30（第3セッション）
 - **FollowFlo 詳細分析・開発開始**
 - タグライン：会議アクションアイテム 完了保証エンジン
