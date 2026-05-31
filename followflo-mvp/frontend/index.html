@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FLOWFLLOW - ダッシュボード</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+        'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+        sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      color: #333;
+    }
+
+    .navbar {
+      background: rgba(0, 0, 0, 0.2);
+      color: white;
+      padding: 20px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .navbar-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: 2px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 30px;
+    }
+
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      cursor: pointer;
+      transition: opacity 0.3s;
+    }
+
+    .nav-links a:hover {
+      opacity: 0.8;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+
+    h1 {
+      color: white;
+      margin-bottom: 30px;
+      font-size: 32px;
+    }
+
+    .page {
+      display: none;
+    }
+
+    .page.active {
+      display: block;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .card h2 {
+      font-size: 18px;
+      margin-bottom: 16px;
+      color: #333;
+      border-bottom: 2px solid #667eea;
+      padding-bottom: 12px;
+    }
+
+    .stat {
+      display: flex;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-bottom: 1px solid #eee;
+      font-size: 14px;
+    }
+
+    .stat strong {
+      color: #667eea;
+      font-size: 20px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 16px;
+    }
+
+    th {
+      background: #f5f5f5;
+      padding: 12px;
+      text-align: left;
+      font-weight: 600;
+      border-bottom: 2px solid #ddd;
+    }
+
+    td {
+      padding: 12px;
+      border-bottom: 1px solid #eee;
+    }
+
+    tr:hover {
+      background: #f9f9f9;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .badge-approved {
+      background: #e8f5e9;
+      color: #2e7d32;
+    }
+
+    .badge-pending {
+      background: #f3e5f5;
+      color: #6a1b9a;
+    }
+
+    .badge-review {
+      background: #fff3e0;
+      color: #e65100;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 40px;
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 18px;
+    }
+
+    .error {
+      background: rgba(255, 0, 0, 0.1);
+      color: white;
+      padding: 16px;
+      border-radius: 8px;
+      margin: 16px 0;
+    }
+
+    .score-bar {
+      background: #e0e0e0;
+      height: 8px;
+      border-radius: 4px;
+      overflow: hidden;
+      margin: 8px 0;
+    }
+
+    .score-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #667eea, #764ba2);
+    }
+  </style>
+</head>
+<body>
+  <div class="navbar">
+    <div class="navbar-content">
+      <div class="logo">FLOWFLLOW</div>
+      <div class="nav-links">
+        <a onclick="showPage('dashboard')">ダッシュボード</a>
+        <a onclick="showPage('evidence')">証拠ファイル</a>
+        <a onclick="showPage('tasks')">タスク</a>
+        <a onclick="showPage('proofs')">完了証拠</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <!-- ダッシュボード -->
+    <div id="dashboard" class="page active">
+      <h1>📊 FLOWFLLOW ダッシュボード</h1>
+      <div id="dashboard-content" class="loading">読込中...</div>
+    </div>
+
+    <!-- 証拠ファイル -->
+    <div id="evidence" class="page">
+      <h1>📎 証拠ファイル</h1>
+      <div id="evidence-content" class="loading">読込中...</div>
+    </div>
+
+    <!-- タスク -->
+    <div id="tasks" class="page">
+      <h1>📋 アクションアイテム</h1>
+      <div id="tasks-content" class="loading">読込中...</div>
+    </div>
+
+    <!-- 完了証拠 -->
+    <div id="proofs" class="page">
+      <h1>✅ 完了証拠</h1>
+      <div id="proofs-content" class="loading">読込中...</div>
+    </div>
+  </div>
+
+  <script>
+    const API_BASE = '';
+
+    function showPage(pageName) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.getElementById(pageName).classList.add('active');
+
+      if (pageName === 'dashboard') loadDashboard();
+      if (pageName === 'evidence') loadEvidenceFiles();
+      if (pageName === 'tasks') loadTasks();
+      if (pageName === 'proofs') loadProofs();
+    }
+
+    async function loadDashboard() {
+      const content = document.getElementById('dashboard-content');
+      try {
+        const response = await fetch(`${API_BASE}/api/dashboard/summary`);
+        const data = await response.json();
+
+        let html = '<div class="grid">';
+        html += '<div class="card"><h2>全体統計</h2>';
+        html += `<div class="stat"><span>総タスク数:</span><strong>${data.globalStats.totalTasks}</strong></div>`;
+        html += `<div class="stat"><span>完了済み:</span><strong>${data.globalStats.completedTasks}</strong></div>`;
+        const rate = data.globalStats.totalTasks > 0
+          ? ((data.globalStats.completedTasks / data.globalStats.totalTasks) * 100).toFixed(1)
+          : 0;
+        html += `<div class="stat"><span>完了率:</span><strong>${rate}%</strong></div>`;
+        html += '</div>';
+
+        html += '<div class="card"><h2>チーム成績</h2>';
+        html += '<table><thead><tr><th>ユーザー</th><th>完了率</th><th>完了タスク</th></tr></thead><tbody>';
+        data.team.forEach(member => {
+          html += `<tr><td>${member.user_id}</td><td>${member.completion_rate.toFixed(1)}%</td><td>${member.completed_tasks}/${member.total_tasks}</td></tr>`;
+        });
+        html += '</tbody></table></div>';
+        html += '</div>';
+
+        if (data.overdue.length > 0) {
+          html += '<div class="card" style="border-left: 4px solid #ff9800;"><h2>⚠️ 期限超過タスク</h2>';
+          data.overdue.forEach(item => {
+            html += `<div class="stat"><span>${item.task_name}</span><span>${new Date(item.deadline).toLocaleDateString('ja-JP')}</span></div>`;
+          });
+          html += '</div>';
+        }
+
+        content.innerHTML = html;
+      } catch (error) {
+        content.innerHTML = `<div class="error">エラー: ${error.message}</div>`;
+      }
+    }
+
+    async function loadEvidenceFiles() {
+      const content = document.getElementById('evidence-content');
+      try {
+        const response = await fetch(`${API_BASE}/api/evidence-files`);
+        const files = await response.json();
+
+        let html = '<div class="grid">';
+        if (files.length === 0) {
+          html = '<div style="color: white; text-align: center; padding: 40px;">証拠ファイルがありません</div>';
+        } else {
+          files.forEach(file => {
+            const statusClass = file.ai_review_status === 'approved' ? 'badge-approved' : 'badge-review';
+            const statusLabel = file.ai_review_status === 'approved' ? '✅ 承認済み' : '⚠️ 確認が必要';
+            html += `<div class="card">
+              <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 12px;">
+                <h3 style="margin: 0; flex: 1;">${file.file_name}</h3>
+                <span class="badge ${statusClass}">${statusLabel}</span>
+              </div>
+              <div class="stat"><span>タイプ:</span><span>${file.file_type}</span></div>
+              <div class="stat"><span>アップロード者:</span><span>${file.uploaded_by}</span></div>
+              <h4 style="margin-top: 12px; margin-bottom: 8px;">品質評価</h4>
+              <div class="score-bar"><div class="score-fill" style="width: ${file.quality_score * 100}%"></div></div>
+              <div style="font-size: 12px; color: #667eea; font-weight: 600;">${(file.quality_score * 100).toFixed(0)}%</div>
+              ${file.quality_feedback ? `<p style="font-size: 12px; color: #666; margin-top: 8px;">${file.quality_feedback}</p>` : ''}
+            </div>`;
+          });
+        }
+        html += '</div>';
+        content.innerHTML = html;
+      } catch (error) {
+        content.innerHTML = `<div class="error">エラー: ${error.message}</div>`;
+      }
+    }
+
+    async function loadTasks() {
+      const content = document.getElementById('tasks-content');
+      try {
+        const response = await fetch(`${API_BASE}/api/action-items`);
+        const tasks = await response.json();
+
+        let html = '';
+        if (tasks.length === 0) {
+          html = '<div style="color: white; text-align: center; padding: 40px;">タスクがありません</div>';
+        } else {
+          tasks.forEach(task => {
+            const statusClass = task.status === 'completed' ? 'badge-approved' : 'badge-pending';
+            const statusLabel = task.status === 'completed' ? '✅ 完了' : '⏳ 保留中';
+            html += `<div class="card" style="margin-bottom: 16px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                <h3 style="margin: 0; flex: 1;">${task.task_name}</h3>
+                <span class="badge ${statusClass}">${statusLabel}</span>
+              </div>
+              <div class="stat"><span>担当:</span><span>${task.assigned_to}</span></div>
+              <div class="stat"><span>期限:</span><span>${new Date(task.deadline).toLocaleDateString('ja-JP')}</span></div>
+              <div class="stat"><span>検証段階:</span><span>段階 ${task.ai_verification_stage}</span></div>
+            </div>`;
+          });
+        }
+        content.innerHTML = html;
+      } catch (error) {
+        content.innerHTML = `<div class="error">エラー: ${error.message}</div>`;
+      }
+    }
+
+    async function loadProofs() {
+      const content = document.getElementById('proofs-content');
+      try {
+        content.innerHTML = '<div style="color: white; text-align: center; padding: 40px;">完了証拠の詳細表示</div>';
+      } catch (error) {
+        content.innerHTML = `<div class="error">エラー: ${error.message}</div>`;
+      }
+    }
+
+    // ページロード時にダッシュボードを読込
+    window.addEventListener('load', loadDashboard);
+  </script>
+</body>
+</html>
