@@ -1,1 +1,3 @@
 *.bundle
+followflo-mvp/coverage/
+followflo-mvp/node_modules/
