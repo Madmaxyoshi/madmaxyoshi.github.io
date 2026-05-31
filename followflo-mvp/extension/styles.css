@@ -1,0 +1,181 @@
+/* FLOWFLLOW Extension Styles */
+
+.flowfllow-badge {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.flowfllow-badge:hover {
+  transform: scale(1.1);
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+}
+
+.flowfllow-badge.status-completed {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.flowfllow-badge.status-pending {
+  background: #fff3e0;
+  color: #e65100;
+}
+
+.flowfllow-badge.status-overdue {
+  background: #ffebee;
+  color: #c62828;
+}
+
+.flowfllow-indicator {
+  display: inline-block;
+  margin-left: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: transform 0.2s ease;
+}
+
+.flowfllow-indicator:hover {
+  transform: scale(1.2);
+}
+
+.flowfllow-sidebar {
+  position: fixed;
+  right: 0;
+  top: 0;
+  width: 320px;
+  height: 100vh;
+  background: white;
+  box-shadow: -2px 0 8px rgba(0, 0, 0, 0.1);
+  z-index: 10000;
+  overflow-y: auto;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+}
+
+.flowfllow-sidebar-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 16px;
+  border-bottom: 1px solid #ddd;
+  position: sticky;
+  top: 0;
+}
+
+.flowfllow-sidebar-header h2 {
+  margin: 0 0 8px 0;
+  font-size: 16px;
+}
+
+.flowfllow-sidebar-header p {
+  margin: 0;
+  font-size: 12px;
+  opacity: 0.9;
+}
+
+.flowfllow-sidebar-content {
+  padding: 16px;
+}
+
+.flowfllow-sidebar-section {
+  margin-bottom: 20px;
+}
+
+.flowfllow-sidebar-section-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: #667eea;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.flowfllow-task-item {
+  background: #f9f9f9;
+  border-left: 3px solid #667eea;
+  padding: 12px;
+  border-radius: 4px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.flowfllow-task-item:hover {
+  background: #f0f0f0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.flowfllow-task-name {
+  font-weight: 500;
+  font-size: 13px;
+  margin-bottom: 6px;
+  color: #333;
+}
+
+.flowfllow-task-meta {
+  font-size: 11px;
+  color: #666;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.flowfllow-status-badge {
+  display: inline-block;
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.flowfllow-status-badge.completed {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.flowfllow-status-badge.pending {
+  background: #fff3e0;
+  color: #e65100;
+}
+
+.flowfllow-status-badge.overdue {
+  background: #ffebee;
+  color: #c62828;
+}
+
+.flowfllow-sidebar-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: rgba(255, 255, 255, 0.3);
+  border: none;
+  color: white;
+  width: 28px;
+  height: 28px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+
+.flowfllow-sidebar-close:hover {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.flowfllow-empty {
+  text-align: center;
+  padding: 24px;
+  color: #999;
+  font-size: 13px;
+}
+
+.flowfllow-loading {
+  text-align: center;
+  padding: 24px;
+  color: #999;
+  font-size: 13px;
+}

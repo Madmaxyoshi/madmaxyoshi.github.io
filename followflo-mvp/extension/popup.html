@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FLOWFLLOW</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      width: 400px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: #333;
+    }
+
+    .header {
+      background: rgba(0, 0, 0, 0.2);
+      color: white;
+      padding: 16px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .header h1 {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .header p {
+      font-size: 12px;
+      opacity: 0.9;
+    }
+
+    .content {
+      padding: 16px;
+      max-height: 400px;
+      overflow-y: auto;
+    }
+
+    .section {
+      margin-bottom: 16px;
+    }
+
+    .section-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: #667eea;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+    }
+
+    .task-item {
+      background: white;
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 8px;
+      border-left: 3px solid #667eea;
+    }
+
+    .task-name {
+      font-weight: 500;
+      font-size: 13px;
+      margin-bottom: 6px;
+      color: #333;
+    }
+
+    .task-status {
+      font-size: 11px;
+      color: #666;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .status-badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 10px;
+      font-weight: 600;
+    }
+
+    .status-completed {
+      background: #e8f5e9;
+      color: #2e7d32;
+    }
+
+    .status-pending {
+      background: #fff3e0;
+      color: #e65100;
+    }
+
+    .status-overdue {
+      background: #ffebee;
+      color: #c62828;
+    }
+
+    .score {
+      font-size: 12px;
+      color: #667eea;
+      font-weight: 600;
+      margin-top: 6px;
+    }
+
+    .empty {
+      color: rgba(255, 255, 255, 0.7);
+      text-align: center;
+      padding: 24px;
+      font-size: 13px;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 24px;
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .error {
+      background: rgba(255, 0, 0, 0.1);
+      color: white;
+      padding: 12px;
+      border-radius: 6px;
+      margin: 12px;
+      font-size: 12px;
+    }
+
+    button {
+      background: #667eea;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 4px;
+      font-size: 12px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background: #764ba2;
+    }
+
+    .settings {
+      padding: 12px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(0, 0, 0, 0.1);
+    }
+
+    .setting-group {
+      margin-bottom: 8px;
+    }
+
+    .setting-label {
+      font-size: 12px;
+      color: white;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 6px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>📊 FLOWFLLOW</h1>
+    <p>Action Item Tracker</p>
+  </div>
+
+  <div class="content">
+    <div class="section">
+      <div class="section-title">Recent Tasks</div>
+      <div id="tasks-container" class="loading">読込中...</div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Team Stats</div>
+      <div id="stats-container" class="loading">読込中...</div>
+    </div>
+  </div>
+
+  <div class="settings">
+    <div class="setting-group">
+      <label class="setting-label">API Server URL</label>
+      <input type="text" id="api-url" placeholder="http://localhost:3000" />
+    </div>
+    <button onclick="saveSettings()">Save</button>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
