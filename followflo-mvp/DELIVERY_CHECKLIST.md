@@ -1,4 +1,4 @@
-# FollowFlo MVP - Delivery Checklist
+# FlowFllo MVP - Delivery Checklist
 
 ## ✅ Completion Status: 100%
 
@@ -27,8 +27,8 @@
   - Error handling approach
 
 ### 2. Presentation
-- [x] **FollowFlo_MVP_Presentation.pptx** (8 professional slides)
-  1. Title slide with FollowFlo branding
+- [x] **FlowFllo_MVP_Presentation.pptx** (8 professional slides)
+  1. Title slide with FlowFllo branding
   2. 5 differentiation features
   3. Competitive comparison (vs Otter.ai, Fireflies.ai, Fellow.ai)
   4. 4-stage verification engine details
@@ -108,7 +108,7 @@
    - Review README.md for technical architecture
 
 2. **Review Presentation** (15 min)
-   - Open FollowFlo_MVP_Presentation.pptx
+   - Open FlowFllo_MVP_Presentation.pptx
    - Verify messaging and competitive positioning
 
 3. **Approve Demo Video** (5 min)
@@ -127,7 +127,7 @@
 ```
 Branch: claude/vigilant-fermi-YP0kN
 Commits:
-  1. feat: FollowFlo MVP Day 2 - Complete 4-stage AI verification, 
+  1. feat: FlowFllo MVP Day 2 - Complete 4-stage AI verification, 
      auto-escalation, comprehensive testing (13 files, 1363 lines)
   2. docs: Add Day 2 completion report with all deliverables summary
 ```

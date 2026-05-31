@@ -1,4 +1,4 @@
-# FollowFlo MVP - デモンストレーション
+# FlowFllo MVP - デモンストレーション
 
 **実行日時**: 2026-05-31  
 **ステータス**: ✅ 本番対応 100% 完了
@@ -93,7 +93,7 @@ npm run build
 
 # 4. 起動
 npm start
-# ✅ FollowFlo MVP started (Lightning mode)
+# ✅ FlowFllo MVP started (Lightning mode)
 ```
 
 ---
@@ -130,14 +130,14 @@ npm start
 ✅ Listeners registered
 ✅ Dashboard registered
 ✅ Escalation scheduler started
-✅ FollowFlo MVP started (Lightning mode)
+✅ FlowFllo MVP started (Lightning mode)
 ```
 
 ---
 
 ## 💾 ローカル実行環境
 
-このドキュメント時点で、FollowFlo MVP は以下の状態です：
+このドキュメント時点で、FlowFllo MVP は以下の状態です：
 
 - **ローカル**: ✅ 完全動作確認済み
 - **リモート**: ⏳ Git proxy 認証待ち（14 commits pending）

@@ -1,4 +1,4 @@
-# FollowFlo MVP - セットアップガイド
+# FlowFllo MVP - セットアップガイド
 
 ## 📋 前提条件
 - Node.js 18+
@@ -34,7 +34,7 @@ npm start
 
 1. https://api.slack.com/apps にアクセス
 2. "Create New App" → "From scratch"
-3. App name: `FollowFlo` → Workspace 選択
+3. App name: `FlowFllo` → Workspace 選択
 4. **OAuth & Permissions** で以下スコープ追加：
    - `chat:write`
    - `chat:write.public`

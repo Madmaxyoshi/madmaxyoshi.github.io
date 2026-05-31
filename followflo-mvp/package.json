@@ -1,7 +1,7 @@
 {
   "name": "followflo-mvp",
   "version": "0.1.0",
-  "description": "FollowFlo - Meeting Action Item Completion Guarantee Engine",
+  "description": "FlowFllo - Meeting Action Item Completion Guarantee Engine",
   "main": "dist/index.js",
   "scripts": {
     "dev": "ts-node src/index.ts",

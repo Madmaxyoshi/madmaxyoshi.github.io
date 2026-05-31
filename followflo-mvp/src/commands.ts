@@ -127,7 +127,7 @@ async function handleStatus(command: any, client: any) {
 
 async function handleHelp(command: any, client: any) {
   const help = `
-🤖 *FollowFlo コマンドヘルプ*
+🤖 *FlowFllo コマンドヘルプ*
 
 \`/followflo create "タスク名" @ユーザー deadline:YYYY-MM-DD\`
 → 新しいアクションアイテムを作成

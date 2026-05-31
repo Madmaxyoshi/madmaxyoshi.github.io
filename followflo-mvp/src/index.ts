@@ -49,7 +49,7 @@ async function start() {
     console.log('✅ Escalation scheduler started');
 
     await app.start(process.env.PORT || 3000);
-    console.log('✅ FollowFlo MVP started (Lightning mode)');
+    console.log('✅ FlowFllo MVP started (Lightning mode)');
   } catch (error) {
     console.error('❌ Error starting app:', error);
     process.exit(1);

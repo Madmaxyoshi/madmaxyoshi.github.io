@@ -3,7 +3,7 @@ import { query } from '../database';
 
 jest.mock('../database');
 
-describe('FollowFlo MVP - Integration Tests', () => {
+describe('FlowFllo MVP - Integration Tests', () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });

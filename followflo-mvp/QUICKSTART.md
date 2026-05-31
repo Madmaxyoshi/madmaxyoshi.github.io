@@ -1,4 +1,4 @@
-# FollowFlo MVP クイックスタート
+# FlowFllo MVP クイックスタート
 
 ## セットアップ（5分）
 

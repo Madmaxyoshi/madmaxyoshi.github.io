@@ -16,7 +16,7 @@ export async function registerDashboard(app: App) {
             type: 'header',
             text: {
               type: 'plain_text',
-              text: '📊 FollowFlo ダッシュボード',
+              text: '📊 FlowFllo ダッシュボード',
             },
           },
           {
@@ -79,7 +79,7 @@ export async function registerDashboard(app: App) {
           type: 'modal',
           title: {
             type: 'plain_text',
-            text: 'FollowFlo Dashboard',
+            text: 'FlowFllo Dashboard',
           },
           blocks: dashboard.blocks,
         },

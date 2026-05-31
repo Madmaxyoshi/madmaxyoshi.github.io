@@ -1,10 +1,10 @@
-# FollowFlo MVP
+# FlowFllo MVP
 
 **会議アクションアイテム完了保証エンジン**
 
 ## 概要
 
-FollowFlo MVP は、Slack/Teams/Zoom/Notion/Asana を通じてアクションアイテムの完了を**自動検出・検証・追跡**し、完了率をリアルタイムレポートするシステムです。
+FlowFllo MVP は、Slack/Teams/Zoom/Notion/Asana を通じてアクションアイテムの完了を**自動検出・検証・追跡**し、完了率をリアルタイムレポートするシステムです。
 
 ## 技術仕様
 
