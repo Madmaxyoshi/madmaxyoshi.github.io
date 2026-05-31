@@ -14,7 +14,7 @@ describe('AI Verification Engine', () => {
       const mockQuery = query as jest.MockedFunction<typeof query>;
       mockQuery.mockResolvedValue({
         rows: [],
-      });
+      } as any);
 
       const result = await verifyCompletion('test-id', '✅ 完了しました', 'user123');
       expect(result.stage).toBe(1);
@@ -25,7 +25,7 @@ describe('AI Verification Engine', () => {
       const mockQuery = query as jest.MockedFunction<typeof query>;
       mockQuery.mockResolvedValue({
         rows: [],
-      });
+      } as any);
 
       const result = await verifyCompletion('test-id', '完了です', 'user123');
       expect(result.verified).toBe(false);
@@ -52,10 +52,10 @@ describe('AI Verification Engine', () => {
             deadline: '2026-06-15',
           },
         ],
-      });
+      } as any);
       mockQuery.mockResolvedValueOnce({
         rows: [],
-      });
+      } as any);
 
       const result = await verifyCompletion(
         'test-id',
@@ -77,7 +77,7 @@ describe('AI Verification Engine', () => {
             deadline: '2026-06-15',
           },
         ],
-      });
+      } as any);
 
       const result = await verifyCompletion(
         'test-id',
@@ -101,10 +101,10 @@ describe('AI Verification Engine', () => {
             deadline: '2026-06-15',
           },
         ],
-      });
+      } as any);
       mockQuery.mockResolvedValueOnce({
         rows: [],
-      });
+      } as any);
 
       const result = await verifyCompletion(
         'test-id',
@@ -128,10 +128,10 @@ describe('AI Verification Engine', () => {
             deadline: '2026-06-15',
           },
         ],
-      });
+      } as any);
       mockQuery.mockResolvedValueOnce({
         rows: [],
-      });
+      } as any);
 
       // Task name not in message, user matches = 0.6 confidence
       const result = await verifyCompletion(
@@ -156,10 +156,10 @@ describe('AI Verification Engine', () => {
             deadline: '2026-06-15',
           },
         ],
-      });
+      } as any);
       mockQuery.mockResolvedValueOnce({
         rows: [],
-      });
+      } as any);
 
       // Task name in message + user matches = 1.0 confidence
       const result = await verifyCompletion(
@@ -178,13 +178,13 @@ describe('AI Verification Engine', () => {
   describe('Update verification stage', () => {
     it('should update verification stage in database', async () => {
       const mockQuery = query as jest.MockedFunction<typeof query>;
-      mockQuery.mockResolvedValue({ rows: [] });
+      mockQuery.mockResolvedValue({ rows: [] } as any);
 
       await updateVerificationStage('test-id', 2);
 
       expect(mockQuery).toHaveBeenCalledWith(
         expect.stringContaining('UPDATE action_items'),
-        ['2', 'test-id']
+        [2, 'test-id']
       );
     });
   });

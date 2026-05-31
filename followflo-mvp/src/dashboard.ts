@@ -36,7 +36,7 @@ export async function registerDashboard(app: App) {
               text: '*チーム成績*',
             },
           },
-          ...teamMetrics.map(metric => ({
+          ...teamMetrics.map((metric: any) => ({
             type: 'section',
             text: {
               type: 'mrkdwn',
@@ -54,7 +54,7 @@ export async function registerDashboard(app: App) {
             },
           },
           ...(overdueItems.length > 0
-            ? overdueItems.slice(0, 5).map(item => ({
+            ? overdueItems.slice(0, 5).map((item: any) => ({
                 type: 'section',
                 text: {
                   type: 'mrkdwn',

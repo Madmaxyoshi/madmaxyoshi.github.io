@@ -9,7 +9,7 @@ export function registerListeners(app: App) {
 
     const completionKeywords = ['✅', '完了', 'done', 'finished', '終了', 'complete'];
     const isCompletion = completionKeywords.some(keyword =>
-      message.text.toLowerCase().includes(keyword.toLowerCase())
+      message.text!.toLowerCase().includes(keyword.toLowerCase())
     );
 
     if (isCompletion && 'user' in message) {
@@ -28,8 +28,8 @@ export function registerListeners(app: App) {
           // Run AI verification
           const verification = await verifyCompletion(
             actionItem.id,
-            message.text,
-            message.user
+            message.text!,
+            message.user!
           );
 
           // Update verification stage
@@ -95,7 +95,7 @@ export function registerListeners(app: App) {
             );
 
             // Get channel info from event
-            const channel = 'item' in event ? (event.item as any).channel : event.channel;
+            const channel = 'item' in event ? (event.item as any).channel : (event as any).channel;
             if (channel) {
               await client.chat.postMessage({
                 channel,
