@@ -7,6 +7,8 @@ export interface ActionItem {
   created_at: string;
   status: 'pending' | 'completed' | 'overdue';
   slack_channel_id?: string;
+  escalation_level?: number;
+  ai_verification_stage?: number;
 }
 
 export interface CompletionProof {
@@ -24,4 +26,12 @@ export interface CompletionMetric {
   completed_tasks: number;
   completion_rate: number;
   average_completion_time_hours: number;
+}
+
+export interface VerificationResult {
+  stage: number;
+  verified: boolean;
+  confidence: number;
+  reason: string;
+  hash: string;
 }

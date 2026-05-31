@@ -50,16 +50,44 @@ async function handleCreate(command: any, client: any) {
   const assignedTo = userMatch[1];
   const deadline = deadlineMatch[1];
 
-  await query(
-    `INSERT INTO action_items (task_name, assigned_to, deadline, created_by, slack_channel_id)
-     VALUES ($1, $2, $3, $4, $5)`,
-    [taskName, assignedTo, deadline, command.user_id, command.channel_id]
-  );
+  const deadlineDate = new Date(deadline);
+  if (isNaN(deadlineDate.getTime())) {
+    await client.chat.postEphemeral({
+      channel: command.channel_id,
+      user: command.user_id,
+      text: '❌ 無効な期限形式です。YYYY-MM-DD形式で指定してください。',
+    });
+    return;
+  }
 
-  await client.chat.postMessage({
-    channel: command.channel_id,
-    text: `✅ アクションアイテムを記録しました\n• タスク: ${taskName}\n• 担当者: @${assignedTo}\n• 期限: ${deadline}`,
-  });
+  if (deadlineDate < new Date()) {
+    await client.chat.postEphemeral({
+      channel: command.channel_id,
+      user: command.user_id,
+      text: '⚠️ 指定された期限は過去の日付です。本当に作成しますか？',
+    });
+    return;
+  }
+
+  try {
+    await query(
+      `INSERT INTO action_items (task_name, assigned_to, deadline, created_by, slack_channel_id)
+       VALUES ($1, $2, $3, $4, $5)`,
+      [taskName, assignedTo, deadline, command.user_id, command.channel_id]
+    );
+
+    await client.chat.postMessage({
+      channel: command.channel_id,
+      text: `✅ アクションアイテムを記録しました\n• タスク: ${taskName}\n• 担当者: @${assignedTo}\n• 期限: ${deadline}`,
+    });
+  } catch (error: any) {
+    console.error('Create error:', error);
+    await client.chat.postEphemeral({
+      channel: command.channel_id,
+      user: command.user_id,
+      text: `❌ データベースエラー: ${error.message || 'Unknown error'}`,
+    });
+  }
 }
 
 async function handleList(command: any, client: any) {

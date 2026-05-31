@@ -11,7 +11,10 @@ CREATE TABLE IF NOT EXISTS action_items (
   slack_thread_id VARCHAR(255),
   slack_channel_id VARCHAR(100),
   status VARCHAR(20) DEFAULT 'pending', -- pending, completed, overdue
-  priority VARCHAR(20) DEFAULT 'normal' -- low, normal, high
+  priority VARCHAR(20) DEFAULT 'normal', -- low, normal, high
+  escalation_level INT DEFAULT 0, -- 0=none, 1=T-1 reminder, 2=T+24h manager, 3=T+3d exec
+  escalation_sent_at TIMESTAMP,
+  ai_verification_stage INT DEFAULT 0 -- 0=unverified, 1=auto-detected, 2=context-verified, 3=human-confirmed
 );
 
 -- ===== テーブル2: 完了証拠 =====
