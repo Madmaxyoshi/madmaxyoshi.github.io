@@ -1,0 +1,32 @@
+{
+  "name": "stackmix-mvp",
+  "version": "0.1.0",
+  "description": "音楽版Frame.io - 音楽制作チームのコラボレーションプラットフォーム",
+  "scripts": {
+    "dev": "ts-node src/index.ts",
+    "build": "tsc",
+    "test": "jest --coverage",
+    "lint": "eslint src/**/*.ts"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "multer": "^1.4.5-lts.1",
+    "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.13",
+    "@types/express": "^4.17.17",
+    "@types/jest": "^29.5.0",
+    "@types/multer": "^1.4.7",
+    "@types/node": "^18.0.0",
+    "@types/supertest": "^7.2.0",
+    "@types/uuid": "^9.0.2",
+    "jest": "^29.5.0",
+    "supertest": "^7.2.2",
+    "ts-jest": "^29.1.0",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.0.0"
+  }
+}

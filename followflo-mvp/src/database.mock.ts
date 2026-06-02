@@ -24,31 +24,31 @@ export async function query(text: string, params?: any[]) {
   const upperText = text.toUpperCase();
   const p = params || [];
 
-  if (upperText.includes('SELECT * FROM action_items')) {
+  if (upperText.includes('SELECT * FROM ACTION_ITEMS')) {
     const filtered = mockData.action_items.filter(item => {
       if (p.length > 0 && upperText.includes('WHERE')) {
-        if (upperText.includes('status = $')) return item.status === p[0];
-        if (upperText.includes('assigned_to = $')) return item.assigned_to === p[0];
+        if (upperText.includes('STATUS = $')) return item.status === p[0];
+        if (upperText.includes('ASSIGNED_TO = $')) return item.assigned_to === p[0];
       }
       return true;
     });
     return { rows: filtered };
   }
 
-  if (upperText.includes('SELECT * FROM evidence_files')) {
+  if (upperText.includes('SELECT * FROM EVIDENCE_FILES')) {
     const filtered = mockData.evidence_files.filter(file => {
       if (p.length > 0) {
-        if (upperText.includes('action_item_id = $')) return file.action_item_id === parseInt(p[0]);
-        if (upperText.includes('ai_review_status = $')) return file.ai_review_status === p[0];
+        if (upperText.includes('ACTION_ITEM_ID = $')) return file.action_item_id === parseInt(p[0]);
+        if (upperText.includes('AI_REVIEW_STATUS = $')) return file.ai_review_status === p[0];
       }
       return true;
     });
     return { rows: filtered };
   }
 
-  if (upperText.includes('SELECT * FROM completion_proofs')) {
+  if (upperText.includes('SELECT * FROM COMPLETION_PROOFS')) {
     const filtered = mockData.completion_proofs.filter(proof => {
-      if (p.length > 0 && upperText.includes('action_item_id = $')) {
+      if (p.length > 0 && upperText.includes('ACTION_ITEM_ID = $')) {
         return proof.action_item_id === parseInt(p[0]);
       }
       return true;
@@ -57,7 +57,7 @@ export async function query(text: string, params?: any[]) {
   }
 
   if (upperText.includes('COUNT(*)')) {
-    if (upperText.includes('status = $') && p.length > 0) {
+    if (upperText.includes('STATUS = $') && p.length > 0) {
       const count = mockData.action_items.filter(item => item.status === p[0]).length;
       return { rows: [{ total: count.toString() }] };
     }
