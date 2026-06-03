@@ -2,13 +2,23 @@ import { Pool } from 'pg';
 import fs from 'fs';
 import path from 'path';
 
-const pool = new Pool({
-  host: process.env.DB_HOST || 'localhost',
-  port: parseInt(process.env.DB_PORT || '5432'),
-  user: process.env.DB_USER || 'followflo_user',
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME || 'followflo_mvp',
-});
+// DATABASE_URL形式（Supabase/Railway提供）を優先、個別env varをフォールバック
+const pool = new Pool(
+  process.env.DATABASE_URL
+    ? {
+        connectionString: process.env.DATABASE_URL,
+        ssl: process.env.DATABASE_URL.includes('localhost')
+          ? false
+          : { rejectUnauthorized: false },
+      }
+    : {
+        host: process.env.DB_HOST || 'localhost',
+        port: parseInt(process.env.DB_PORT || '5432'),
+        user: process.env.DB_USER || 'followflo_user',
+        password: process.env.DB_PASSWORD,
+        database: process.env.DB_NAME || 'followflo_mvp',
+      }
+);
 
 export async function initDatabase() {
   try {
