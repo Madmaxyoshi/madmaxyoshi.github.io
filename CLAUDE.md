@@ -666,3 +666,47 @@ CEO のご負担を最小限にするため、3ステップの手順のみをご
 
 **担当**: Claude Code (COO)  
 **最終更新**: 2026-06-01（第10セッション）
+
+---
+
+### 2026-06-03（第11セッション - GitHubプッシュ恒久解決・両LP公開）
+
+【秘書】議事録・記録保存
+
+**【最大の成果：GitHub push 恒久解決】**
+
+- GitHub Fine-grained PAT（`Nuranex-Claude-push`）を設定
+- リポジトリ: `madmaxyoshi.github.io` / 権限: Contents Read and write
+- 有効期限: 2026年8月31日
+- セッション環境から直接 `git push` が可能になった（第7セッション以来の懸案解決）
+
+**【StackMix MVP 完成】**
+
+| 指標 | 結果 |
+|------|------|
+| Statements | 100% |
+| Lines | 100% |
+| Functions | 100% |
+| Branch | 100% |
+| テスト数 | 64本（4スイート） |
+
+- API: 11エンドポイント（projects/tracks/comments/reviews）
+- Mock DB: 全CRUD操作
+- テスト: database-mock / api正常系 / api.error / index
+
+**【ランディングページ 2本 公開済み】**
+
+| サービス | URL | 配色 |
+|---------|-----|------|
+| FollowFlo | https://madmaxyoshi.github.io/followflo/ | オレンジ（#FF6B35） |
+| StackMix | https://madmaxyoshi.github.io/stackmix/ | 紫（#7C3AED）×ピンク |
+
+両ページとも GitHub Pages mainブランチにマージ・公開済み。
+
+**【スケジュール（次回以降）】**
+- StackMix 追加機能開発（ファイルアップロード・リアルタイムコメント）
+- 法務：プライバシーポリシー・利用規約（2026-06-10目標）
+- FollowFlo Slack実API統合
+
+**担当**: Claude Code (COO)  
+**最終更新**: 2026-06-03（第11セッション）
