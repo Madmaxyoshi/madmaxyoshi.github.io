@@ -132,5 +132,8 @@ router.get('/api/dashboard/summary', async (req: Request, res: Response) => {
     res.status(500).json({ error: 'Failed to fetch dashboard summary' });
   }
 });
+router.get('/health', (_req: Request, res: Response) => {
+  res.json({ status: 'ok', version: '0.1.0', timestamp: new Date().toISOString() });
+});
 
 export default router;

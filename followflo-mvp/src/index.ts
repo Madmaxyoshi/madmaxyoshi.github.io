@@ -2,12 +2,17 @@ import { App } from '@slack/bolt';
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import { initDatabase } from './database.mock';
+import { initDatabase as initMockDatabase } from './database.mock';
+import { initDatabase as initRealDatabase } from './database';
+const initDatabase = process.env.DATABASE_URL || (process.env.DB_HOST !== undefined && process.env.DB_HOST !== 'localhost')
+  ? initRealDatabase
+  : initMockDatabase;
 import { registerCommands } from './commands';
 import { registerListeners } from './listeners';
 import { registerDashboard } from './dashboard';
 import { checkAndExecuteEscalations } from './escalation';
 import apiRouter from './api';
+import { createTeamsRouter } from './teams';
 
 dotenv.config();
 
@@ -22,6 +27,7 @@ const slackApp = new App({
 expressApp.use(cors());
 expressApp.use(express.json());
 expressApp.use(apiRouter);
+expressApp.use(createTeamsRouter());
 
 // Serve static dashboard
 expressApp.use(express.static('frontend'));
@@ -43,7 +49,6 @@ async function start() {
     await registerDashboard(slackApp);
     console.log('✅ Dashboard registered');
 
-    // Start escalation scheduler (every 30 minutes)
     setInterval(async () => {
       try {
         await checkAndExecuteEscalations(slackApp);
@@ -53,7 +58,6 @@ async function start() {
       }
     }, 30 * 60 * 1000);
 
-    // Run initial escalation check after 2 minutes
     setTimeout(() => {
       checkAndExecuteEscalations(slackApp).catch(error =>
         console.error('❌ Initial escalation check error:', error)

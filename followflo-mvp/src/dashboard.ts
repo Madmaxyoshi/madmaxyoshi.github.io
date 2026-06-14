@@ -1,96 +1,48 @@
-import { App } from '@slack/bolt';
-import { getCompletionMetrics, getTeamMetrics, getOverdueItems } from './metrics';
+import { Pool, PoolConfig } from 'pg';
+import fs from 'fs';
+import path from 'path';
 
-export async function registerDashboard(app: App) {
-  app.command('/followflo-dashboard', async ({ ack, body, client }) => {
-    ack();
-
-    try {
-      const userMetrics = await getCompletionMetrics(body.user_id);
-      const teamMetrics = await getTeamMetrics();
-      const overdueItems = await getOverdueItems();
-
-      const dashboard = {
-        blocks: [
-          {
-            type: 'header',
-            text: {
-              type: 'plain_text',
-              text: '📊 FlowFllo ダッシュボード',
-            },
-          },
-          {
-            type: 'section',
-            text: {
-              type: 'mrkdwn',
-              text: `*個人の成績*\n完了率: ${userMetrics.completion_rate}% (${userMetrics.completed_tasks}/${userMetrics.total_tasks})\n平均完了時間: ${userMetrics.average_completion_time_hours}時間`,
-            },
-          },
-          {
-            type: 'divider',
-          },
-          {
-            type: 'section',
-            text: {
-              type: 'mrkdwn',
-              text: '*チーム成績*',
-            },
-          },
-          ...teamMetrics.map((metric: any) => ({
-            type: 'section',
-            text: {
-              type: 'mrkdwn',
-              text: `<@${metric.user_id}>: ${metric.completion_rate}% (${metric.completed_tasks}/${metric.total_tasks})`,
-            },
-          })),
-          {
-            type: 'divider',
-          },
-          {
-            type: 'section',
-            text: {
-              type: 'mrkdwn',
-              text: `*期限超過タスク*: ${overdueItems.length}件`,
-            },
-          },
-          ...(overdueItems.length > 0
-            ? overdueItems.slice(0, 5).map((item: any) => ({
-                type: 'section',
-                text: {
-                  type: 'mrkdwn',
-                  text: `⚠️ "${item.task_name}" (<@${item.assigned_to}>) - 期限: ${item.deadline}`,
-                },
-              }))
-            : [
-                {
-                  type: 'section',
-                  text: {
-                    type: 'plain_text',
-                    text: '期限超過タスクはありません 🎉',
-                  },
-                },
-              ]),
-        ],
-      };
-
-      await client.views.open({
-        trigger_id: body.trigger_id,
-        view: {
-          type: 'modal',
-          title: {
-            type: 'plain_text',
-            text: 'FlowFllo Dashboard',
-          },
-          blocks: dashboard.blocks,
-        },
-      });
-    } catch (error) {
-      console.error('Dashboard error:', error);
-      await client.chat.postEphemeral({
-        channel: body.channel_id,
-        user: body.user_id,
-        text: '❌ ダッシュボードの読み込みに失敗しました',
-      });
+const poolConfig: PoolConfig = process.env.DATABASE_URL
+  ? {
+      connectionString: process.env.DATABASE_URL,
+      ssl: { rejectUnauthorized: false }, // Supabase / Railway SSL
+      max: 10,
+      idleTimeoutMillis: 30000,
+      connectionTimeoutMillis: 2000,
     }
-  });
+  : {
+      host: process.env.DB_HOST || 'localhost',
+      port: parseInt(process.env.DB_PORT || '5432'),
+      user: process.env.DB_USER || 'followflo_user',
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_NAME || 'followflo_mvp',
+      max: 10,
+      idleTimeoutMillis: 30000,
+      connectionTimeoutMillis: 2000,
+    };
+
+const pool = new Pool(poolConfig);
+
+export async function initDatabase() {
+  try {
+    const schema = fs.readFileSync(
+      path.join(__dirname, '../config/schema.sql'),
+      'utf-8'
+    );
+    await pool.query(schema);
+    console.log('Database schema initialized');
+  } catch (error) {
+    console.error('Database initialization error:', error);
+    throw error;
+  }
 }
+
+export async function query(text: string, params?: any[]) {
+  return pool.query(text, params);
+}
+
+export async function getClient() {
+  return pool.connect();
+}
+
+export default pool;
