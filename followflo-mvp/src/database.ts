@@ -1,14 +1,27 @@
-import { Pool } from 'pg';
+import { Pool, PoolConfig } from 'pg';
 import fs from 'fs';
 import path from 'path';
 
-const pool = new Pool({
-  host: process.env.DB_HOST || 'localhost',
-  port: parseInt(process.env.DB_PORT || '5432'),
-  user: process.env.DB_USER || 'followflo_user',
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME || 'followflo_mvp',
-});
+const poolConfig: PoolConfig = process.env.DATABASE_URL
+  ? {
+      connectionString: process.env.DATABASE_URL,
+      ssl: { rejectUnauthorized: false }, // Supabase / Railway SSL
+      max: 10,
+      idleTimeoutMillis: 30000,
+      connectionTimeoutMillis: 2000,
+    }
+  : {
+      host: process.env.DB_HOST || 'localhost',
+      port: parseInt(process.env.DB_PORT || '5432'),
+      user: process.env.DB_USER || 'followflo_user',
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_NAME || 'followflo_mvp',
+      max: 10,
+      idleTimeoutMillis: 30000,
+      connectionTimeoutMillis: 2000,
+    };
+
+const pool = new Pool(poolConfig);
 
 export async function initDatabase() {
   try {
